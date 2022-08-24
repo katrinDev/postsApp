@@ -5,6 +5,14 @@ const handleError = (res, error) => {
 }
 
 //создаем отдельный контроллер для каждого типа запроса
+const getPosts = (req, res) => {
+    Post
+        .find()
+        .sort({createdAt: -1})
+        .then((posts) => res.status(200).json(posts))
+        .catch( error => handleError(res, error));    
+};
+
 const getPost = (req, res) => {
     Post
     .findById(req.params.id)
@@ -19,7 +27,6 @@ const deletePost = (req, res) => {
        .catch( error => handleError(res, error));
 };
 
-
 const editPost = (req, res) => {
     const { title, author, text } = req.body;
     const {id} = req.params;
@@ -29,13 +36,6 @@ const editPost = (req, res) => {
         .catch( error => handleError(res, error));
 };
 
-const getPosts = (req, res) => {
-    Post
-        .find()
-        .sort({createdAt: -1})
-        .then((posts) => res.status(200).json(posts))
-        .catch( error => handleError(res, error));    
-};
 
 const addPost = (req, res) => {
     const {title, text, author} = req.body;

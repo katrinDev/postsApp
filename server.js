@@ -22,7 +22,7 @@ mongoose
         .catch((err) => console.log(err.message));
 
 
-app.listen(PORT, 'localhost', (error) => {
+app.listen(PORT, (error) => {
     error ? console.log(error) : console.log(`listening port ${PORT}`);
 });
 
@@ -33,8 +33,6 @@ app.use(express.urlencoded({ extended: false}));// для post-запросов,
 app.use(express.static('styles'));//разрешаем доступ к файлу со статичными данными
 
 app.use(methodOverride('_method'));//передаем строку-флаг, на которую будем реагировать для put
-
-
 
 app.get('/', (req, res) => {
     const title = 'Home';
