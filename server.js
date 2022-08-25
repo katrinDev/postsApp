@@ -9,21 +9,23 @@ const postApiRoutes = require('./routes/api-post-routes');
 const contactRoutes = require('./routes/contact-routes');
 const createPath = require('./helpers/create-path');
 
-const app = express();
-const PORT = 3000;
+require('dotenv').config();
+const chalk = require('chalk');
 
+const app = express();
 app.set('view engine', 'ejs');
 
-const db = 'mongodb+srv://Katrin:Kpoloz19992002@cluster0.tpli7ug.mongodb.net/node-blog?retryWrites=true&w=majority';//по этой ссылке происходит коннект и там же зашифрован адрес бд (node-blog)!!
+const errorMsg = chalk.bgKeyword('red').white;
+const successMsg = chalk.bgKeyword('green').white;
 
 mongoose
-        .connect(db)
-        .then((res) => console.log('Connected to DB'))
-        .catch((err) => console.log(err.message));
+        .connect(process.env.MONGO_URL)
+        .then((res) => console.log(successMsg('Connected to DB')))
+        .catch((err) => console.log(errorMsg(err.message)));
 
 
-app.listen(PORT, (error) => {
-    error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT, (error) => {
+    error ? console.log(errorMsg(error.message)) : console.log(successMsg(`listening port ${process.env.PORT}`));
 });
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
